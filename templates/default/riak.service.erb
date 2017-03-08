@@ -1,0 +1,14 @@
+[Unit]
+Description=riak service
+
+[Service]
+ExecStart=/usr/sbin/riak start
+ExecStop=/usr/sbin/riak stop
+Type=forking
+PIDFile=/var/run/riak/riak.pid
+User=root
+Group=root
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

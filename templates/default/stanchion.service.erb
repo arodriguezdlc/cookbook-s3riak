@@ -1,0 +1,16 @@
+[Unit]
+Description=stanchion service
+Requires=riak.service
+After=riak.service
+
+[Service]
+ExecStart=/usr/sbin/stanchion start
+ExecStop=/usr/sbin/stanchion stop
+Type=forking
+PIDFile=/var/run/stanchion/stanchion.pid
+User=root
+Group=root
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

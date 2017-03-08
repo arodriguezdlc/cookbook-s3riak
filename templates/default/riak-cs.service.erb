@@ -1,0 +1,16 @@
+[Unit]
+Description=riak-cs service
+Requires=riak.service
+After=riak.service
+
+[Service]
+ExecStart=/usr/sbin/riak-cs start
+ExecStop=/usr/sbin/riak-cs stop
+Type=forking
+PIDFile=/var/run/riak-cs/riak-cs.pid
+User=root
+Group=root
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,40 @@
+%% Config file used to set advanced configuration options
+
+[{lager,
+   [
+      {extra_sinks,
+           [
+            {object_lager_event,
+             [{handlers,
+               [{lager_file_backend,
+                 [{file, "/var/log/riak/object.log"},
+                  {level, info},
+                  {formatter_config, [date, " ", time," [",severity,"] ",message, "\n"]}
+                 ]
+                }]
+              },
+              {async_threshold, 500},
+              {async_threshold_window, 50}]
+            }
+            ]
+      }
+    ]
+},
+{eleveldb, [
+    {total_leveldb_mem_percent, 30}
+    ]},
+{riak_kv, [
+    {add_paths, ["/usr/lib64/riak-cs/lib/riak_cs-<%= @riakcs_version %>/ebin"]},
+    {storage_backend, riak_cs_kv_multi_backend},
+    {multi_backend_prefix_list, [{<<"0b:">>, be_blocks}]},
+    {multi_backend_default, be_default},
+    {multi_backend, [
+        {be_default, riak_kv_eleveldb_backend, [
+            {data_root, "/var/lib/riak/leveldb"}
+        ]},
+        {be_blocks, riak_kv_bitcask_backend, [
+            {data_root, "/var/lib/riak/bitcask"}
+        ]}
+    ]}
+]}
+].
