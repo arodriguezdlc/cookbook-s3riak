@@ -12,5 +12,5 @@ s3riak_riakcs "install riakcs" do
 end
 
 s3riak_riak "configure riak" do
-  action :configure
+  action [:configure, :join]
 end

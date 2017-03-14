@@ -6,7 +6,7 @@ module Riak
       require 'uri'
       require 'json'
 
-      uri = URI.parse("http://localhost:8080/riak-cs/user")
+      uri = URI.parse("http://#{node['ipaddress']}:8080/riak-cs/user")
       request = Net::HTTP::Post.new(uri)
       request.content_type = "application/json"
       request.body = JSON.dump({

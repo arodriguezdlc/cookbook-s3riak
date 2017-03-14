@@ -5,7 +5,7 @@
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-listener = 127.0.0.1:8080
+listener = <%= node["ipaddress"] %>:8080
 
 ## Riak node to which Riak CS accesses
 ##
@@ -13,7 +13,7 @@ listener = 127.0.0.1:8080
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-riak_host = 127.0.0.1:8087
+riak_host = <%= node["ipaddress"] %>:8087
 
 ## Configuration for access to request
 ## serialization service

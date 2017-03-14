@@ -4,7 +4,7 @@
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-listener = 127.0.0.1:8085
+listener = <%= node['ipaddress'] %>:8085
 
 ## Default cert location for https can be overridden
 ## with the ssl config variable, for example:
@@ -26,7 +26,7 @@ listener = 127.0.0.1:8085
 ##
 ## Acceptable values:
 ##   - an IP/port pair, e.g. 127.0.0.1:10011
-riak_host = localhost:8087
+riak_host = <%= node['ipaddress'] %>:8087
 
 ## Admin user credentials. The credentials specified here must
 ## match the admin credentials specified in the riak-cs.conf for the
@@ -236,7 +236,7 @@ log.crash.rotation.keep = 5
 ##
 ## Acceptable values:
 ##   - text
-nodename = stanchion@127.0.0.1
+nodename = stanchion@<%= node['ipaddress'] %>
 
 ## Cookie for distributed node communication.  All nodes in the
 ## same cluster should use the same cookie or they will not be able to

@@ -30,6 +30,18 @@ end
 
 action :configure do
 
+  ruby_block 'save_stanchion' do
+    block do
+      stanchion = {
+        "id" => "stanchion",
+        "ipaddress" => node['ipaddress']
+      }
+      item = Chef::DataBagItem.from_hash(stanchion)
+      item.data_bag('s3')
+      item.save
+    end
+  end
+
   template "/etc/stanchion/stanchion.conf" do
     source    "stanchion.conf.erb"
     owner     "root"
@@ -49,6 +61,7 @@ action :configure do
         :secret_key => keys["key_secret"]
       } } )
     notifies :restart, 'service[stanchion]', :immediate
+    subscribes :create, 'ruby_block[create_admin]', :immediate
   end
 
   service "stanchion" do

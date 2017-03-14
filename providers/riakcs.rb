@@ -45,11 +45,6 @@ action :configure do
     variables(:endpoint => endpoint)
   end
 
-  chef_data_bag 's3' do
-    name "s3"
-    action :create
-  end
-
   template "/etc/riak-cs/riak-cs.conf" do
     source    "riak-cs.conf.erb"
     owner     "root"
@@ -61,14 +56,18 @@ action :configure do
             lazy {
               anonymous_status = "off"
               keys = Chef::DataBagItem.load("s3", "admin") rescue keys = {}
+              stanchion = Chef::DataBagItem.load("s3", "stanchion") rescue stanchion = {}
               if keys.empty?
                 keys = {  "key_id" => "admin-key" ,
                           "key_secret" => "admin-key"
                 }
                 anonymous_status = "on"
               end
+              if stanchion.empty?
+                stanchion = { "ipaddress" => "127.0.0.1" }
+              end
               {
-                :stanchion_host => stanchion_host,
+                :stanchion_host => stanchion["ipaddress"],
                 :anonymous_status => anonymous_status,
                 :access_key => keys["key_id"],
                 :secret_key => keys["key_secret"]
@@ -100,8 +99,8 @@ action :create_admin do
         item.data_bag('s3')
         item.save
       end
+      action :run
       notifies :create, 'template[/etc/riak-cs/riak-cs.conf]', :immediate
-      notifies :create, 'template[/etc/stanchion/stanchion.conf]', :immediate
     end
 
   end
