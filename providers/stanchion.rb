@@ -26,10 +26,6 @@ action :install do
     notifies :run, 'bash[systemd-reload]', :immediate
   end
 
-  bash 'systemd-reload' do
-    action :nothing
-    code "systemctl daemon-reload"
-  end
 end
 
 action :configure do
