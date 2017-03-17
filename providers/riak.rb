@@ -52,6 +52,7 @@ end
 action :configure do
 
   riakcs_version = new_resource.riakcs_version
+  riak_pass = new_resource.riak_pass
 
   template "/etc/riak/riak.conf" do
     source    "riak.conf.erb"
@@ -60,6 +61,7 @@ action :configure do
     cookbook  "s3riak"
     mode      0644
     retries   2
+    variables(:riak_pass => riak_pass)
     notifies :restart, 'service[riak]', :immediate
   end
 
